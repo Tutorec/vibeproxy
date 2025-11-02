@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeProxy - Configuration</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VibeProxy</h1>
+            <p class="subtitle">OAuth Authentication Proxy for AI Services</p>
+        </header>
+
+        <main>
+            <!-- Server Status Section -->
+            <section class="card">
+                <h2>Server Status</h2>
+                <div class="status-row">
+                    <span>Backend Server</span>
+                    <div class="status-indicator">
+                        <span class="status-dot" id="server-status-dot"></span>
+                        <span id="server-status-text">Checking...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="card">
+                <h2>Settings</h2>
+                <div class="setting-row">
+                    <label for="launch-at-login">Launch at login</label>
+                    <label class="toggle">
+                        <input type="checkbox" id="launch-at-login">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Auth files</span>
+                    <button id="open-folder-btn" class="btn-secondary">Open Folder</button>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="card">
+                <h2>Services</h2>
+
+                <!-- Claude -->
+                <div class="service-row">
+                    <div class="service-info">
+                        <div class="service-icon">C</div>
+                        <div>
+                            <div class="service-name">Claude Code</div>
+                            <div class="service-status" id="claude-status">Not Connected</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="claude-btn" data-service="claude">Connect</button>
+                </div>
+
+                <!-- Codex -->
+                <div class="service-row">
+                    <div class="service-info">
+                        <div class="service-icon">X</div>
+                        <div>
+                            <div class="service-name">Codex</div>
+                            <div class="service-status" id="codex-status">Not Connected</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="codex-btn" data-service="codex">Connect</button>
+                </div>
+
+                <!-- Gemini -->
+                <div class="service-row">
+                    <div class="service-info">
+                        <div class="service-icon">G</div>
+                        <div>
+                            <div class="service-name">Gemini</div>
+                            <div class="service-status" id="gemini-status">Not Connected</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="gemini-btn" data-service="gemini">Connect</button>
+                </div>
+                <div class="service-note">
+                    ⚠️ Note: If you have multiple Gemini projects, the default project will be used.
+                </div>
+
+                <!-- Qwen -->
+                <div class="service-row">
+                    <div class="service-info">
+                        <div class="service-icon">Q</div>
+                        <div>
+                            <div class="service-name">Qwen</div>
+                            <div class="service-status" id="qwen-status">Not Connected</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="qwen-btn" data-service="qwen">Connect</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>VibeProxy v1.0.5 was made possible thanks to <a href="https://github.com/router-for-me/CLIProxyAPI" target="_blank">CLIProxyAPI</a> | License: MIT</p>
+            <p>© 2025 <a href="https://automaze.io" target="_blank">Automaze, Ltd.</a> All rights reserved.</p>
+            <p><a href="https://github.com/automazeio/vibeproxy/issues" target="_blank">Report an issue</a></p>
+        </footer>
+    </div>
+
+    <!-- Qwen Email Modal -->
+    <div id="qwen-modal" class="modal">
+        <div class="modal-content">
+            <h3>Qwen Account Email</h3>
+            <p>Enter your Qwen account email address</p>
+            <input type="email" id="qwen-email-input" placeholder="your.email@example.com">
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="qwen-cancel-btn">Cancel</button>
+                <button class="btn" id="qwen-continue-btn">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
