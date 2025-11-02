@@ -13,7 +13,7 @@
 
 **Stop paying twice for AI.** VibeProxy lets you use your existing Claude Code, ChatGPT, **Gemini**, and **Qwen** subscriptions with powerful AI coding tools like **[Factory Droids](https://app.factory.ai/r/FM8BJHFQ)** – no separate API keys required.
 
-Available for **macOS** (native menu bar app) and **Linux** (browser-based UI). Built on [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI), it handles OAuth authentication, token management, and API routing automatically. One click to authenticate, zero friction to code.
+**Cross-platform Go implementation** works on **Linux**, **macOS**, and **Windows** with a browser-based UI. Built on [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI), it handles OAuth authentication, token management, and API routing automatically. One click to authenticate, zero friction to code.
 
 > [!IMPORTANT]
 > **NEW: Gemini and Qwen Support! 🎉** VibeProxy now supports Google's Gemini AI and Qwen AI with full OAuth authentication. Connect your accounts and use Gemini and Qwen with your favorite AI coding tools!
@@ -32,145 +32,144 @@ Available for **macOS** (native menu bar app) and **Linux** (browser-based UI). 
 
 ## Features
 
-- 🎯 **Multi-Platform** - Native macOS menu bar app OR browser-based UI for Linux
-- 🚀 **One-Click Server Management** - Start/stop the proxy server easily
-- 🔐 **OAuth Integration** - Authenticate with Codex, Claude Code, Gemini, and Qwen directly
+- 🌐 **Cross-Platform** - Works on Linux, macOS, and Windows
+- 🚀 **Zero-Config Setup** - Auto-downloads dependencies and creates config
+- 🔐 **OAuth Integration** - Authenticate with Claude Code, Codex, Gemini, and Qwen
 - 📊 **Real-Time Status** - Live connection status and automatic credential detection
 - 🔄 **Auto-Updates** - Monitors auth files and updates UI in real-time
-- 🎨 **Beautiful UI** - Native SwiftUI on macOS, modern web UI on Linux
-- 💾 **Self-Contained** - Single binary with everything embedded (server, config, UI)
-- 🧠 **Extended Thinking** - Support for Claude's extended thinking feature with dynamic token budgets
+- 🎨 **Browser UI** - Modern web interface accessible at localhost:8319
+- 💾 **Self-Contained** - Single binary with everything embedded
+- 🧠 **Extended Thinking** - Claude's extended thinking with dynamic token budgets (4K/10K/32K)
 
 
 ## Installation
 
-### macOS (Apple Silicon Only)
+### Prerequisites
 
-**⚠️ Requirements:** macOS running on **Apple Silicon only** (M1/M2/M3/M4 Macs). Intel Macs are not supported.
+- **Go 1.21+** (for building from source)
+- **curl** and **tar** (for downloading dependencies)
+- **Browser** (any modern browser for the UI)
 
-#### Download Pre-built Release (Recommended)
-
-1. Go to the [**Releases**](https://github.com/automazeio/vibeproxy/releases) page
-2. Download the latest `VibeProxy.zip`
-3. Extract and drag `VibeProxy.app` to `/Applications`
-4. Launch VibeProxy
-
-**Code Signed & Notarized** ✅ - No Gatekeeper warnings, installs seamlessly on macOS.
-
-#### Build from Source
-
-Want to build it yourself? See [**INSTALLATION.md**](INSTALLATION.md) for detailed build instructions.
-
-### Linux (Debian-based)
-
-**⚠️ Requirements:** Debian-based Linux (Ubuntu, Debian, Linux Mint, etc.) with `xdg-utils` installed.
-
-#### Quick Start
+### Quick Start (All Platforms)
 
 ```bash
-# Clone the repo
+# Clone the repository
 git clone https://github.com/automazeio/vibeproxy.git
 cd vibeproxy
 
-# Build
-make linux-build
+# Build (auto-detects your OS and architecture)
+make build
 
-# Run (opens browser automatically)
+# Run
 ./vibeproxy
 ```
 
-The application will:
-1. Start all services (ThinkingProxy, CLIProxyAPI, Web UI)
-2. Auto-open your browser to `http://localhost:8319/static/`
-3. Run in the background - close the browser, it keeps working
+**What happens:**
+1. Downloads the appropriate `cli-proxy-api` binary for your platform
+2. Creates `config.yaml` from default template
+3. Builds the Go binary
+4. Starts all services (ThinkingProxy, CLIProxyAPI, Web UI)
+5. Auto-opens browser to `http://localhost:8319/static/`
 
-#### Install System-Wide
+### Platform-Specific Notes
 
+#### Linux
 ```bash
-# Install to /usr/local/bin
-make linux-install
+# System-wide installation
+make install
 
-# Run from anywhere
-vibeproxy
+# Create .deb package (Debian/Ubuntu)
+make package
 ```
 
-#### Create .deb Package
+See [**LINUX.md**](LINUX.md) for autostart setup and troubleshooting.
 
+#### macOS
 ```bash
-# Build Debian package
-make linux-package
+# Build and run
+make build
+./vibeproxy
 
-# Install
-sudo dpkg -i vibeproxy_1.0.5_amd64.deb
+# System-wide installation
+make install
 ```
 
-> [!TIP]
-> See **[LINUX.md](LINUX.md)** for complete Linux documentation including autostart setup, troubleshooting, port configuration, and advanced usage.
+Works on both Intel and Apple Silicon (M1/M2/M3/M4).
+
+#### Windows
+Support planned. CLIProxyAPI has Windows binaries available, but browser auto-launch needs implementation.
 
 ## Usage
 
 ### First Launch
 
-1. Launch VibeProxy - you'll see a menu bar icon
-2. Click the icon and select "Open Settings"
-3. The server will start automatically
-4. Click "Connect" for Claude Code, Codex, Gemini, or Qwen to authenticate
+1. Run `./vibeproxy` (or `vibeproxy` if installed system-wide)
+2. Browser opens automatically to `http://localhost:8319/static/`
+3. Click "Connect" for Claude Code, Codex, Gemini, or Qwen
+4. Complete OAuth in the browser
+5. VibeProxy detects your credentials automatically
 
 ### Authentication
 
 When you click "Connect":
-1. Your browser opens with the OAuth page
-2. Complete the authentication in the browser
-3. VibeProxy automatically detects your credentials
-4. Status updates to show you're connected
+1. Browser opens with the OAuth page
+2. Complete authentication (login/authorize)
+3. Close the browser when done
+4. VibeProxy automatically detects credentials
+5. UI shows "Connected" status
 
 ### Server Management
 
-- **Toggle Server**: Click the status (Running/Stopped) to start/stop
-- **Menu Bar Icon**: Shows active/inactive state
-- **Launch at Login**: Toggle to start VibeProxy automatically
+- **Status**: Green = running and healthy (port 8318 responding)
+- **Background Mode**: Close browser, proxy keeps running
+- **Stop Server**: Press Ctrl+C in terminal
+- **Launch at Login**: Toggle in web UI (Linux: creates XDG autostart entry)
 
-## Requirements
+### Using with Your IDE
 
-- macOS 13.0 (Ventura) or later
+Configure your IDE/tools to use:
+```
+API Endpoint: http://localhost:8317
+Model: claude-sonnet-4-5-20250929-thinking-10000
+```
+
+The `-thinking-BUDGET` suffix enables extended thinking (2K/10K/32K tokens).
 
 ## Development
 
 ### Project Structure
 
 ```
-VibeProxy/
-├── Sources/
-│   ├── main.swift              # App entry point
-│   ├── AppDelegate.swift       # Menu bar & window management
-│   ├── ServerManager.swift     # Server process control & auth
-│   ├── SettingsView.swift      # Main UI
-│   ├── AuthStatus.swift        # Auth file monitoring
-│   └── Resources/
-│       ├── AppIcon.iconset     # App icon
-│       ├── AppIcon.icns        # App icon
-│       ├── cli-proxy-api       # CLIProxyAPI binary
-│       ├── config.yaml         # CLIProxyAPI config
-│       ├── icon-active.png     # Menu bar icon (active)
-│       ├── icon-inactive.png   # Menu bar icon (inactive)
-│       ├── icon-claude.png     # Claude Code service icon
-│       ├── icon-codex.png      # Codex service icon
-│       ├── icon-gemini.png     # Gemini service icon
-│       └── icon-qwen.png       # Qwen service icon
-├── Package.swift               # Swift Package Manager config
-├── Info.plist                  # macOS app metadata
-├── build.sh                    # Resource bundling script
-├── create-app-bundle.sh        # App bundle creation script
-└── Makefile                    # Build automation
+vibeproxy/
+├── cmd/vibeproxy/           # Main entry point
+│   └── main.go              # Orchestrates all services
+├── internal/
+│   ├── auth/                # Auth file parsing & watching
+│   │   ├── status.go        # JSON credential parser
+│   │   └── watcher.go       # fsnotify file watcher
+│   ├── process/             # CLIProxyAPI process management
+│   │   └── manager.go       # Start/stop/health check
+│   ├── proxy/               # ThinkingProxy HTTP interceptor
+│   │   └── thinking.go      # Model name transformation
+│   └── server/              # Web UI server
+│       ├── ui.go            # HTTP endpoints (status/connect/disconnect)
+│       └── static/          # Browser UI assets
+│           ├── index.html
+│           ├── style.css
+│           └── app.js
+├── config.default.yaml      # Default config template (port 8318)
+├── go.mod                   # Go module definition
+├── go.sum                   # Dependency checksums
+└── Makefile                 # Cross-platform build automation
 ```
 
 ### Key Components
 
-- **AppDelegate**: Manages the menu bar item and settings window lifecycle
-- **ServerManager**: Controls the cli-proxy-api server process and OAuth authentication
-- **SettingsView**: SwiftUI interface with native macOS design
-- **AuthStatus**: Monitors `~/.cli-proxy-api/` for authentication files
-- **File Monitoring**: Real-time updates when auth files are added/removed
+- **main.go**: Starts ThinkingProxy (8317), CLIProxyAPI (8318), Web UI (8319), and file watcher
+- **process.Manager**: Manages cli-proxy-api lifecycle with health checks
+- **proxy.ThinkingProxy**: HTTP reverse proxy with model name transformation
+- **auth.Watcher**: Monitors `~/.cli-proxy-api/` for credential changes
+- **server.UIServer**: Serves web UI and API endpoints
 
 ## Credits
 

@@ -439,7 +439,6 @@ func (m *Manager) killOrphanedProcesses() {
 
 // GetBinaryPath returns the path to the bundled CLI proxy binary
 func GetBinaryPath() (string, error) {
-	// Try to find the binary in common locations
 	execPath, err := os.Executable()
 	if err != nil {
 		return "", err
@@ -449,12 +448,6 @@ func GetBinaryPath() (string, error) {
 
 	// Check if cli-proxy-api is in the same directory as the executable
 	binaryPath := filepath.Join(execDir, "cli-proxy-api")
-	if _, err := os.Stat(binaryPath); err == nil {
-		return binaryPath, nil
-	}
-
-	// Check in src/Resources (development)
-	binaryPath = filepath.Join(execDir, "..", "src", "Resources", "cli-proxy-api")
 	if _, err := os.Stat(binaryPath); err == nil {
 		return binaryPath, nil
 	}
@@ -475,12 +468,6 @@ func GetConfigPath() (string, error) {
 	configPath := filepath.Join(execDir, "config.yaml")
 	if _, err := os.Stat(configPath); err == nil {
 		return configPath, nil
-	}
-
-	// Check in src/Resources (development)
-	devConfigPath := filepath.Join(execDir, "..", "src", "Resources", "config.yaml")
-	if _, err := os.Stat(devConfigPath); err == nil {
-		return devConfigPath, nil
 	}
 
 	// Check for config.default.yaml template

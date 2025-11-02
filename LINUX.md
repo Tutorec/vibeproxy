@@ -242,9 +242,7 @@ If you see "cli-proxy-api binary not found":
    rm cli-proxy-api.tar.gz
    ```
 
-The Go binary looks for `cli-proxy-api` in these locations:
-1. Same directory as the vibeproxy executable
-2. `../src/Resources/cli-proxy-api` (development)
+The vibeproxy binary looks for `cli-proxy-api` in the same directory as the executable.
 
 For system installations, both binaries are installed to `/usr/local/bin/`.
 
@@ -306,17 +304,20 @@ go build ./...
 go run ./cmd/vibeproxy
 ```
 
-## Comparison to macOS Version
+## Cross-Platform Implementation
 
-| Feature | macOS (Swift) | Linux (Go) |
-|---------|---------------|------------|
-| UI | Native SwiftUI window | Browser-based (HTML/CSS/JS) |
-| System Tray | Native menu bar | No system tray |
-| Autostart | ServiceManagement API | XDG autostart |
-| Distribution | .app bundle (~25-30 MB) | Single binary (~18-20 MB) |
-| Dependencies | None (bundled) | None (static binary) |
+VibeProxy is now a **pure Go implementation** that works across platforms:
 
-Both versions provide identical functionality - only the UI delivery differs.
+| Feature | Implementation |
+|---------|----------------|
+| UI | Browser-based (HTML/CSS/JS) |
+| System Tray | None (web UI instead) |
+| Autostart | XDG autostart (Linux), launchd (macOS planned) |
+| Distribution | Single binary (~9 MB) + cli-proxy-api (~32 MB) |
+| Dependencies | fsnotify (Go library) |
+| Platforms | Linux ✅, macOS ✅, Windows (planned) |
+
+The Go implementation provides identical functionality across all platforms with zero platform-specific code.
 
 ## License
 
